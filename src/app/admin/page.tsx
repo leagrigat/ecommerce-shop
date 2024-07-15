@@ -13,11 +13,16 @@ async function getSalesData() {
     _sum: { priceInCents: true },
     _count: true,
   });
+  await wait(2000);
 
   return {
     amount: (data._sum.priceInCents || 0) / 100, // to get a dollar value
     numberofSales: data._count,
   };
+}
+
+function wait(duration: number) {
+  return new Promise((resolve) => setTimeout(resolve, duration));
 }
 
 async function getUserData() {
