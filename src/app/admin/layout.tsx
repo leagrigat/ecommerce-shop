@@ -1,6 +1,6 @@
 import { Nav, NavLink } from "@/components/Nav";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"; // to generate admin page dynamically and don't cache
 
 export default function AdminLayout({
   children,
