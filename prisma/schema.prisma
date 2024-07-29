@@ -16,11 +16,11 @@ model Product {
   priceInCents           Int
   filePath               String
   imagePath              String
-  descripion             String
+  description            String
   isAvailableForPurchase Boolean                @default(true)
   createdAt              DateTime               @default(now())
   updatedAt              DateTime               @updatedAt
-  order                  Order[]
+  orders                 Order[]
   downloadVerification   DownloadVerification[]
 }
 
@@ -29,7 +29,7 @@ model User {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  order     Order[]
+  orders    Order[]
 }
 
 model Order {
@@ -38,9 +38,9 @@ model Order {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   userId       String
-  ProductId    String
+  productId    String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Cascade: if we delete a user delete all the orders associated with that user
-  product      Product  @relation(fields: [ProductId], references: [id], onDelete: Restrict) // Restrict: If we try to delete a product that has orders we're not allowed to do that
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Restrict) // Restrict: If we try to delete a product that has orders we're not allowed to do that
 }
 
 model DownloadVerification {

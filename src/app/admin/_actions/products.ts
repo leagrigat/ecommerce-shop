@@ -12,13 +12,13 @@ const imageSchema = fileSchema.refine(
 
 const addSchema = z.object({
   name: z.string().min(1),
-  decription: z.string().min(1),
+  description: z.string().min(1),
   priceInCents: z.coerce.number().int().min(1),
   file: fileSchema.refine((file) => file.size > 0, "Required"),
   image: imageSchema.refine((file) => file.size > 0, "Required"),
 });
 
-export async function AddProduct(formData: FormData) {
+export async function addProduct(prevSate: unknown, formData: FormData) {
   const result = addSchema.safeParse(Object.fromEntries(formData.entries()));
   if (result.success === false) {
     return result.error.formErrors.fieldErrors;
@@ -40,8 +40,9 @@ export async function AddProduct(formData: FormData) {
 
   await db.product.create({
     data: {
+      isAvailableForPurchase: false,
       name: data.name,
-      descripion: data.decription,
+      description: data.description,
       priceInCents: data.priceInCents,
       filePath,
       imagePath,
