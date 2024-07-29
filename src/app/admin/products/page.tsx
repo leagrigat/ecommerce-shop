@@ -4,11 +4,13 @@ import Link from "next/link";
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import db from "@/db/db";
+import { CheckCircle2, XCircleIcon } from "lucide-react";
 
 export default function AdminProductPage() {
   return (
@@ -33,7 +35,11 @@ async function ProductsTable() {
       isAvailableForPurchase: true,
       _count: { select: { orders: true } },
     },
+    orderBy: { name: "asc" },
   });
+
+  if (products.length === 0) return <p>No prducts found</p>;
+
   return (
     <Table>
       <TableHeader>
@@ -49,7 +55,25 @@ async function ProductsTable() {
           </TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody></TableBody>
+      <TableBody>
+        {products.map((product) => (
+          <TableRow key={product.id}>
+            <TableCell>
+              {product.isAvailableForPurchase ? (
+                <>
+                  {" "}
+                  <CheckCircle2 />{" "}
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <XCircleIcon />{" "}
+                </>
+              )}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
     </Table>
   );
 }
